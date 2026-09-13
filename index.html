@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AYAT COFFEE — Coffee, crafted differently.</title>
+    <meta
+      name="description"
+      content="AYAT COFFEE is a premium coffee and light bites concept designed for a modern digital menu and WhatsApp ordering experience."
+    />
+    <meta name="theme-color" content="#f4efe8" />
+    <meta property="og:title" content="AYAT COFFEE — Coffee, crafted differently." />
+    <meta
+      property="og:description"
+      content="Premium specialty coffee, fresh creations and slow moments designed for a warm and contemporary coffee experience."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1200&q=80" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' rx='28' fill='%23f4efe8'/%3E%3Cpath d='M36 35h48c8 0 14 6 14 14v3c0 8-6 14-14 14H58v18c0 11-9 20-20 20h-2V35zm22 18h16c3 0 6-3 6-6v-2c0-3-3-6-6-6H58v14zm12 30h10c8 0 14 6 14 14v2H60v-16z' fill='%23211d1a'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header" id="top">
+      <nav class="nav container" aria-label="Main navigation">
+        <a class="brand" href="#home" aria-label="AYAT COFFEE home">
+          <span class="brand-mark">AYAT</span>
+          <span class="brand-sub">COFFEE</span>
+        </a>
+
+        <div class="nav-links" aria-label="Main navigation links">
+          <a href="#home">Home</a>
+          <a href="#menu">Menu</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+
+        <button class="cart-button" id="open-cart-button" type="button" aria-label="Open cart">
+          <span class="cart-button__icon">🛒</span>
+          <span class="cart-button__count" id="cart-count-badge">0</span>
+        </button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero section" id="home">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">EST. 2026</p>
+            <h1>
+              AYAT<br />
+              COFFEE
+            </h1>
+            <p class="hero-tagline">Coffee, crafted differently.</p>
+            <p class="hero-description">
+              Specialty coffee, fresh creations and little moments worth staying for.
+            </p>
+
+            <div class="hero-actions">
+              <a class="button button--primary" href="#menu">EXPLORE MENU</a>
+              <a class="button button--secondary" href="#menu">ORDER NOW</a>
+            </div>
+
+            <div class="hero-meta">
+              <span>COFFEE • FRESH • SLOW MOMENTS</span>
+            </div>
+          </div>
+
+          <div class="hero-visual" aria-label="Featured coffee image">
+            <div class="hero-visual__frame">
+              <img
+                src="https://images.unsplash.com/photo-1497636577773-f1231844b336?auto=format&fit=crop&w=1200&q=80"
+                alt="Artisan coffee latte on a warm neutral background"
+              />
+            </div>
+            <div class="floating-card floating-card--top">
+              <span class="spark">✦</span>
+              <div>
+                <strong>Slow roast</strong>
+                <small>single origin</small>
+              </div>
+            </div>
+            <div class="floating-card floating-card--bottom">
+              <span>Freshly brewed</span>
+              <strong>7 am — 10 pm</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section about" id="about">
+        <div class="container about-grid">
+          <div class="about-visual">
+            <img
+              src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1000&q=80"
+              alt="Barista preparing coffee in a cozy artisanal setting"
+            />
+          </div>
+
+          <div class="about-copy">
+            <p class="eyebrow">OUR STORY</p>
+            <h2>Made for the pause in between.</h2>
+            <p>
+              At AYAT COFFEE, coffee is more than a drink. It is a pause, a conversation,
+              a ritual and a little moment in the middle of a busy day.
+            </p>
+            <p>
+              We build each cup with care, from slow roasting to gentle pours, turning daily
+              rituals into something worth lingering over.
+            </p>
+
+            <div class="story-highlights" aria-label="Brand highlights">
+              <div>
+                <strong>Freshly prepared</strong>
+              </div>
+              <div>
+                <strong>Carefully selected</strong>
+              </div>
+              <div>
+                <strong>Made to enjoy</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section menu" id="menu">
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">MENU</p>
+              <h2>Curated for everyday rituals.</h2>
+            </div>
+            <a href="#order-info" class="inline-link">Order details</a>
+          </div>
+
+          <div class="category-nav" id="category-nav" role="tablist" aria-label="Menu categories"></div>
+          <div class="menu-grid" id="menu-grid" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="section cart-section" id="cart">
+        <div class="container cart-layout">
+          <div class="cart-panel">
+            <div class="section-heading compact-heading">
+              <div>
+                <p class="eyebrow">CART</p>
+                <h2>Your order.</h2>
+              </div>
+            </div>
+
+            <div id="cart-items" class="cart-items" aria-live="polite"></div>
+          </div>
+
+          <aside class="order-panel" id="order-info" aria-label="Checkout information">
+            <div class="order-card">
+              <p class="eyebrow">ORDER INFORMATION</p>
+              <h3>Ready to send.</h3>
+
+              <form id="checkout-form" novalidate>
+                <div class="field-group">
+                  <label for="customer-name">Name</label>
+                  <input id="customer-name" name="customer-name" type="text" placeholder="Your name" required />
+                </div>
+
+                <div class="field-group">
+                  <label for="customer-phone">Phone number (optional)</label>
+                  <input id="customer-phone" name="customer-phone" type="tel" placeholder="06 00 00 00 00" />
+                </div>
+
+                <div class="field-group">
+                  <label for="customer-note">Order note / special request</label>
+                  <textarea id="customer-note" name="customer-note" rows="3" placeholder="Without sugar, please."></textarea>
+                </div>
+
+                <div class="field-group">
+                  <span class="label-title">Order type</span>
+                  <div class="radio-row">
+                    <label class="choice choice--radio">
+                      <input type="radio" name="order-type" value="Takeaway" checked />
+                      <span>Takeaway</span>
+                    </label>
+                    <label class="choice choice--radio">
+                      <input type="radio" name="order-type" value="On-site" />
+                      <span>On-site</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="field-group hidden" id="table-group">
+                  <label for="table-number">Table number</label>
+                  <input id="table-number" name="table-number" type="text" placeholder="e.g. 12" />
+                </div>
+
+                <div class="summary-box" aria-live="polite">
+                  <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong id="subtotal-value">0 DH</strong>
+                  </div>
+                  <div class="summary-row total-row">
+                    <span>Total</span>
+                    <strong id="total-value">0 DH</strong>
+                  </div>
+                </div>
+
+                <button type="button" class="button button--primary button--full" id="whatsapp-order-button">
+                  ORDER VIA WHATSAPP
+                </button>
+                <p class="order-hint">This opens WhatsApp so you can review the order and press Send.</p>
+              </form>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section qr-section" id="whatsapp-ordering">
+        <div class="container qr-wrap">
+          <div class="qr-card">
+            <div class="qr-code-box">
+              <img
+                id="qr-code-image"
+                src="https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=https%3A%2F%2Fexample.com%2Fmenu"
+                alt="QR code to explore AYAT COFFEE menu"
+              />
+            </div>
+
+            <div class="qr-copy">
+              <p class="eyebrow">SCAN. ORDER. ENJOY.</p>
+              <h2>Explore the menu and order instantly.</h2>
+              <p>
+                Scan the QR code to explore our menu and order directly through WhatsApp.
+              </p>
+              <a class="button button--secondary" href="https://wa.me/212767283637" target="_blank" rel="noreferrer">
+                CHAT WITH US
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact" id="contact">
+        <div class="container contact-card">
+          <div class="contact-copy">
+            <p class="eyebrow">COME SAY HELLO</p>
+            <h2>Warm coffee. Easy moments.</h2>
+            <ul class="contact-list">
+              <li>📍 Agadir, Morocco</li>
+              <li>🕐 Monday — Sunday • 08:00 — 22:00</li>
+              <li>📱 WhatsApp • +212767283637</li>
+              <li>📸 Instagram • @ayatcoffee</li>
+            </ul>
+            <div class="contact-actions">
+              <a class="button button--primary" href="https://maps.google.com/?q=Agadir%20Morocco" target="_blank" rel="noreferrer">
+                GET DIRECTIONS
+              </a>
+            </div>
+          </div>
+
+          <div class="contact-visual">
+            <img
+              src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=80"
+              alt="Cozy coffee shop interior with warm ambience"
+            />
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <div class="brand footer-brand__title">
+            <span class="brand-mark">AYAT</span>
+            <span class="brand-sub">COFFEE</span>
+          </div>
+          <p>Coffee, crafted differently.</p>
+        </div>
+
+        <div class="footer-links">
+          <a href="#home">Home</a>
+          <a href="#menu">Menu</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+
+        <div class="footer-links">
+          <a href="https://instagram.com/ayatcoffee" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://wa.me/212767283637" target="_blank" rel="noreferrer">WhatsApp</a>
+          <a href="#contact">Opening hours</a>
+          <a href="https://maps.google.com/?q=Agadir%20Morocco" target="_blank" rel="noreferrer">Location</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="container">
+          <p>© 2026 AYAT COFFEE. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <div class="mobile-cart-bar" id="mobile-cart-bar" aria-live="polite">
+      <button type="button" id="mobile-cart-toggle">
+        <span>🛒</span>
+        <span id="mobile-cart-summary">0 items · 0 DH</span>
+      </button>
+    </div>
+
+    <div class="modal" id="product-modal" aria-hidden="true" aria-label="Product details" role="dialog">
+      <div class="modal__backdrop" data-close-modal="true"></div>
+      <div class="modal__dialog" role="document">
+        <button type="button" class="modal__close" id="close-product-modal" aria-label="Close product details">✕</button>
+        <div id="modal-content"></div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" aria-live="polite"></div>
+  </body>
+</html>
