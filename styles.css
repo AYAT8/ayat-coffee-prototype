@@ -1402,6 +1402,10 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .ritual-strip {
+    grid-template-columns: 1fr;
+  }
+
   .nav-links {
     display: none;
   }
@@ -1413,6 +1417,97 @@ textarea {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.ritual-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.ritual-card {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  padding: 26px 22px 22px;
+  min-height: 265px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.46);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.ritual-card::before {
+  content: "";
+  position: absolute;
+  inset: auto -30px -35px auto;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.ritual-card--warm {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(234, 206, 179, 0.32));
+}
+
+.ritual-card--mid {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(199, 217, 74, 0.2));
+}
+
+.ritual-card--dark {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(104, 43, 50, 0.12));
+}
+
+.ritual-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 30px;
+  border: 1px solid rgba(33, 26, 23, 0.12);
+  background: rgba(255, 255, 255, 0.62);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ritual-card h3 {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(2.2rem, 4vw, 2.8rem);
+}
+
+.ritual-card p {
+  position: relative;
+  z-index: 1;
+  font-size: 0.96rem;
+}
+
+.ritual-card ul {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.ritual-card li {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid rgba(33, 26, 23, 0.14);
+  background: rgba(255, 255, 255, 0.42);
 }
 
 @media (max-width: 640px) {
