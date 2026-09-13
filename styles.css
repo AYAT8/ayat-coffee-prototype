@@ -6,9 +6,15 @@
   --muted: #5d504a;
   --line: rgba(33, 26, 23, 0.14);
   --coral: #d94f3d;
+  --coral-soft: #f6b5a6;
   --chartreuse: #c7d94a;
+  --chartreuse-soft: #eaf3a9;
   --burgundy: #682b32;
+  --burgundy-soft: #d2a8af;
   --cobalt: #3155a6;
+  --cobalt-soft: #bfd2ff;
+  --gold: #f8cf72;
+  --gold-soft: #fcebba;
   --soft-white: rgba(255, 255, 255, 0.8);
   --shadow-soft: 0 24px 46px rgba(33, 26, 23, 0.08);
   --shadow-strong: 0 30px 80px rgba(33, 26, 23, 0.14);
@@ -46,6 +52,19 @@ body::before {
   background-position: 0 0, 7px 7px;
   background-size: 14px 14px;
   opacity: 0.28;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: auto 4% 8% auto;
+  width: min(18vw, 210px);
+  height: min(18vw, 210px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(199, 217, 74, 0.42), rgba(199, 217, 74, 0));
+  filter: blur(30px);
   pointer-events: none;
   z-index: 0;
 }
@@ -434,6 +453,14 @@ body.scrolled .site-header {
   background: rgba(199, 217, 74, 0.18);
 }
 
+.shape--cobalt {
+  width: 140px;
+  height: 140px;
+  left: 12%;
+  top: 8%;
+  background: rgba(49, 85, 166, 0.12);
+}
+
 .hero-label {
   position: absolute;
   left: 10px;
@@ -492,6 +519,48 @@ body.scrolled .site-header {
   display: inline-block;
 }
 
+.hero-mini-rail {
+  position: absolute;
+  right: 8px;
+  bottom: 15px;
+  display: grid;
+  gap: 12px;
+}
+
+.mini-note {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  min-width: 110px;
+  border: 1px solid rgba(33, 26, 23, 0.12);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-soft);
+}
+
+.mini-note span {
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.mini-note strong {
+  font-family: "DM Serif Display", serif;
+  font-size: 2.2rem;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+}
+
+.mini-note--coral {
+  background: rgba(246, 181, 166, 0.34);
+}
+
+.mini-note--green {
+  background: rgba(234, 243, 169, 0.48);
+}
+
 .manifesto {
   padding-top: 10px;
 }
@@ -516,6 +585,93 @@ body.scrolled .site-header {
   display: grid;
   gap: 18px;
   font-size: 1.04rem;
+}
+
+.palette-showcase {
+  padding-top: 20px;
+}
+
+.showcase-shell {
+  display: grid;
+  gap: 26px;
+}
+
+.showcase-copy {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.showcase-item {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  min-height: 260px;
+  padding: 18px 18px 22px;
+  border: 1px solid rgba(33, 26, 23, 0.12);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+
+.showcase-item::before {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  right: -34px;
+  bottom: -42px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.showcase-item span {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  width: 40px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(33, 26, 23, 0.12);
+  background: rgba(255, 255, 255, 0.5);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.16em;
+}
+
+.showcase-item h3 {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(2.1rem, 4vw, 3rem);
+}
+
+.showcase-item p {
+  position: relative;
+  z-index: 1;
+  font-size: 0.94rem;
+}
+
+.showcase-item--coral {
+  background: linear-gradient(180deg, rgba(246, 181, 166, 0.82), rgba(255, 255, 255, 0.75));
+}
+
+.showcase-item--chartreuse {
+  background: linear-gradient(180deg, rgba(234, 243, 169, 0.82), rgba(255, 255, 255, 0.75));
+}
+
+.showcase-item--cobalt {
+  background: linear-gradient(180deg, rgba(191, 210, 255, 0.82), rgba(255, 255, 255, 0.76));
+}
+
+.showcase-item--burgundy {
+  background: linear-gradient(180deg, rgba(210, 168, 175, 0.82), rgba(255, 255, 255, 0.76));
 }
 
 .about {
@@ -1402,8 +1558,13 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .ritual-strip {
+  .ritual-strip,
+  .showcase-grid {
     grid-template-columns: 1fr;
+  }
+
+  .showcase-copy {
+    display: block;
   }
 
   .nav-links {
