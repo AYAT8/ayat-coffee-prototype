@@ -20,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -50,61 +50,82 @@
 
     <main>
       <section class="hero section" id="home">
-        <div class="container hero-grid">
+        <div class="container hero-shell">
           <div class="hero-copy">
-            <p class="eyebrow">EST. 2026</p>
-            <h1>
-              AYAT<br />
-              COFFEE
-            </h1>
+            <div class="hero-kicker">Est. 2026</div>
+            <div class="hero-word-wrap">
+              <span class="hero-word">AYAT</span>
+              <span class="hero-word hero-word--two">COFFEE</span>
+            </div>
             <p class="hero-tagline">Coffee, crafted differently.</p>
             <p class="hero-description">
               Specialty coffee, fresh creations and little moments worth staying for.
             </p>
 
             <div class="hero-actions">
-              <a class="button button--primary" href="#menu">EXPLORE MENU</a>
-              <a class="button button--secondary" href="#menu">ORDER NOW</a>
+              <a class="button button--primary" href="#menu">Explore menu</a>
+              <a class="button button--secondary" href="#menu">Order now</a>
             </div>
 
-            <div class="hero-meta">
-              <span>COFFEE • FRESH • SLOW MOMENTS</span>
+            <div class="hero-meta" aria-label="Brand details">
+              <span>Roasted with intention</span>
+              <span>Coffee / food / slow moments</span>
+              <span>08:00 — 22:00</span>
             </div>
           </div>
 
-          <div class="hero-visual" aria-label="Featured coffee image">
-            <div class="hero-visual__frame">
+          <div class="hero-art" aria-label="Featured coffee image">
+            <div class="shape shape--coral" aria-hidden="true"></div>
+            <div class="shape shape--chartreuse" aria-hidden="true"></div>
+            <div class="hero-label">Coffee / food / slow moments</div>
+            <div class="hero-stamp">AYAT<br />COFFEE<br />2026</div>
+            <div class="hero-photo">
               <img
                 src="https://images.unsplash.com/photo-1497636577773-f1231844b336?auto=format&fit=crop&w=1200&q=80"
                 alt="Artisan coffee latte on a warm neutral background"
               />
             </div>
-            <div class="floating-card floating-card--top">
-              <span class="spark">✦</span>
-              <div>
-                <strong>Slow roast</strong>
-                <small>single origin</small>
-              </div>
-            </div>
-            <div class="floating-card floating-card--bottom">
-              <span>Freshly brewed</span>
-              <strong>7 am — 10 pm</strong>
-            </div>
+            <div class="hero-badge">Specialty coffee / Agadir</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section manifesto" aria-label="Coffee manifesto">
+        <div class="container manifesto-grid">
+          <div class="manifesto-copy">
+            <p class="eyebrow">The AYAT manifesto</p>
+            <h2>COFFEE SHOULD FEEL LIKE A MOMENT.</h2>
+          </div>
+          <div class="manifesto-text">
+            <p>
+              At AYAT COFFEE, every cup is an invitation to slow down, notice the details and stay a little longer.
+            </p>
+            <p>
+              We blend the rhythm of a neighborhood atelier with the energy of a contemporary coffee culture.
+            </p>
           </div>
         </div>
       </section>
 
       <section class="section about" id="about">
         <div class="container about-grid">
-          <div class="about-visual">
-            <img
-              src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1000&q=80"
-              alt="Barista preparing coffee in a cozy artisanal setting"
-            />
+          <div class="about-collage" aria-label="Coffee shop editorial collage">
+            <div class="about-photo-large">
+              <img
+                src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1000&q=80"
+                alt="Barista preparing coffee in a cozy artisanal setting"
+              />
+            </div>
+            <div class="about-photo-small">
+              <img
+                src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80"
+                alt="Warm coffee shop interior"
+              />
+            </div>
           </div>
 
           <div class="about-copy">
-            <p class="eyebrow">OUR STORY</p>
+            <p class="eyebrow">Our story</p>
             <h2>Made for the pause in between.</h2>
             <p>
               At AYAT COFFEE, coffee is more than a drink. It is a pause, a conversation,
@@ -117,13 +138,16 @@
 
             <div class="story-highlights" aria-label="Brand highlights">
               <div>
-                <strong>Freshly prepared</strong>
+                <strong>01</strong><br />
+                Selected beans
               </div>
               <div>
-                <strong>Carefully selected</strong>
+                <strong>02</strong><br />
+                Fresh creations
               </div>
               <div>
-                <strong>Made to enjoy</strong>
+                <strong>03</strong><br />
+                Good company
               </div>
             </div>
           </div>
