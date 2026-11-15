@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AYAT COFFEE — Menu</title>
+    <meta
+      name="description"
+      content="Order coffee, drinks, pastries and light bites from AYAT COFFEE with a refined menu experience and WhatsApp checkout."
+    />
+    <meta name="theme-color" content="#f4efe8" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' rx='28' fill='%23f4efe8'/%3E%3Cpath d='M36 35h48c8 0 14 6 14 14v3c0 8-6 14-14 14H58v18c0 11-9 20-20 20h-2V35zm22 18h16c3 0 6-3 6-6v-2c0-3-3-6-6-6H58v14zm12 30h10c8 0 14 6 14 14v2H60v-16z' fill='%23211d1a'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header" id="top">
+      <nav class="nav container" aria-label="Main navigation">
+        <a class="brand" href="index.html" aria-label="AYAT COFFEE home">
+          <span class="brand-mark">AYAT</span>
+          <span class="brand-sub">COFFEE</span>
+        </a>
+
+        <div class="nav-links" aria-label="Main navigation links">
+          <a href="index.html" data-nav="home"><span data-text="Home">Home</span></a>
+          <a href="menu.html" data-nav="menu" aria-current="page"><span data-text="Menu">Menu</span></a>
+          <a href="index.html#contact" data-nav="contact"><span data-text="Contact">Contact</span></a>
+        </div>
+
+        <div class="header-tools">
+          <form class="header-search" action="menu.html" method="get" aria-label="Search menu items">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 015.84 12.82l4.46 4.46 1.41-1.41-4.46-4.46A7.5 7.5 0 1110.5 3zm0 2a5.5 5.5 0 100 11 5.5 5.5 0 000-11z"/></svg>
+            <input id="global-search-input" name="q" type="search" value="" placeholder="Search menu" aria-label="Search menu" />
+          </form>
+
+          <a class="cart-button" id="open-cart-button" href="cart.html" aria-label="Open cart">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 9.2a1 1 0 001 .8h8.9a1 1 0 001-.8L19.2 7H7.3M9 18.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm8 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg>
+            <span class="cart-button__label">Cart</span>
+            <span class="cart-button__count" id="cart-count-badge">0</span>
+          </a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero section">
+        <div class="container page-hero__inner">
+          <p class="eyebrow">Menu</p>
+          <h1>Curated for slow hours.</h1>
+          <p class="page-hero__lead">Coffee, cold drinks, pastries and a few things worth staying for.</p>
+          <p class="hero-status"><span data-open-status class="open-status"></span><span>Tap any item to choose options and add it</span></p>
+        </div>
+      </section>
+
+      <section class="section menu" id="menu">
+        <div class="container">
+          <div class="menu-toolbar">
+            <label class="menu-search" aria-label="Search products by name">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.5 3a7.5 7.5 0 015.84 12.82l4.46 4.46 1.41-1.41-4.46-4.46A7.5 7.5 0 1110.5 3zm0 2a5.5 5.5 0 100 11 5.5 5.5 0 000-11z"/></svg>
+              <input id="menu-search-input" type="search" placeholder="Search for your coffee" aria-label="Search for your coffee" />
+            </label>
+            <button id="clear-search-button" type="button" class="clear-search-button hidden">Clear</button>
+          </div>
+          <div class="category-nav" id="category-nav" role="tablist" aria-label="Menu categories"></div>
+          <div class="menu-grid" id="menu-grid" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="mobile-cart-bar" id="mobile-cart-bar" aria-live="polite">
+      <button type="button" id="mobile-cart-toggle">
+        <svg class="mobile-cart-bar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.2 9.2a1 1 0 001 .8h8.9a1 1 0 001-.8L19.2 7H7.3M9 18.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm8 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></svg>
+        <span id="mobile-cart-summary">View cart</span>
+        <span class="mobile-cart-bar__arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
+
+    <div class="modal" id="product-modal" aria-hidden="true" aria-label="Product details" role="dialog">
+      <div class="modal__backdrop" data-close-modal="true"></div>
+      <div class="modal__dialog" role="document">
+        <button type="button" class="modal__close" id="close-product-modal" aria-label="Close product details">✕</button>
+        <div id="modal-content"></div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast" aria-live="polite"></div>
+  </body>
+</html>
