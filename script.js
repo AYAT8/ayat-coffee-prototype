@@ -678,47 +678,194 @@ function setupNavigation() {
 function bindSearchInputs() {
   const searchInputs = [document.getElementById('global-search-input'), document.getElementById('menu-search-input')];
   const clearButton = document.getElementById('clear-search-button');
+  const onMenuPage = Boolean(document.getElementById('menu-grid'));
 
   searchInputs.forEach((input) => {
     if (!input) return;
+    input.setAttribute('autocomplete', 'off');
+
     input.addEventListener('input', (event) => {
-      state.searchTerm = event.target.value.trim().toLowerCase();
-      syncSearchInputs();
-      if (document.getElementById('menu-grid')) {
-        renderMenu();
+      state.searchTerm = event.target.value;
+      syncSearchInputs(event.target);
+
+      if (onMenuPage) {
+        // Search always covers the whole menu, whatever tab was selected.
+        if (state.searchTerm.trim() && state.activeCategory !== 'ALL') {
+          state.activeCategory = 'ALL';
+          renderCategoryNav();
+          renderMenu();
+        } else {
+          applyMenuFilter();
+        }
+      } else if (input.id === 'global-search-input') {
+        renderSearchSuggestions(input);
       }
     });
   });
+
+  // Header search on pages without the menu grid: live dropdown of results.
+  const headerInput = document.getElementById('global-search-input');
+  const headerForm = headerInput ? headerInput.closest('form') : null;
+  if (headerInput && headerForm && !onMenuPage) {
+    const panel = document.createElement('div');
+    panel.className = 'search-results';
+    panel.id = 'search-results';
+    panel.hidden = true;
+    panel.setAttribute('role', 'listbox');
+    headerForm.appendChild(panel);
+
+    headerInput.addEventListener('focus', () => renderSearchSuggestions(headerInput));
+    headerInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        panel.hidden = true;
+        headerInput.blur();
+      }
+    });
+    document.addEventListener('click', (event) => {
+      if (!headerForm.contains(event.target)) panel.hidden = true;
+    });
+    panel.addEventListener('click', (event) => {
+      const item = event.target.closest('[data-result]');
+      if (!item) return;
+      event.preventDefault();
+      panel.hidden = true;
+      const product = getProductById(item.dataset.result);
+      if (product && document.getElementById('product-modal')) openProductModal(product);
+      else window.location.href = `menu.html?q=${encodeURIComponent(product ? product.name : '')}`;
+    });
+  }
 
   if (clearButton) {
     clearButton.addEventListener('click', () => {
       state.searchTerm = '';
       syncSearchInputs();
-      if (document.getElementById('menu-grid')) renderMenu();
+      applyMenuFilter();
+      document.getElementById('menu-search-input')?.focus();
     });
   }
 }
 
-function syncSearchInputs() {
+function syncSearchInputs(source) {
   [document.getElementById('global-search-input'), document.getElementById('menu-search-input')].forEach((input) => {
-    if (input && input !== document.activeElement) input.value = state.searchTerm;
+    if (input && input !== source) input.value = state.searchTerm;
   });
 
   const clearButton = document.getElementById('clear-search-button');
-  if (clearButton) clearButton.classList.toggle('hidden', !state.searchTerm);
+  if (clearButton) clearButton.classList.toggle('hidden', !state.searchTerm.trim());
+}
+
+/* ---------- Search matching ---------- */
+
+function normalizeText(value) {
+  return String(value || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .trim();
+}
+
+var searchIndex; // created on first use (search can run during start-up)
+
+function getSearchText(product) {
+  searchIndex = searchIndex || new Map();
+  if (!searchIndex.has(product.id)) {
+    const words = (value) => normalizeText(value).split(' ').filter(Boolean);
+    const optionText = (product.options || []).flatMap((group) => [group.name, ...group.values.map((v) => v.label)]).join(' ');
+    searchIndex.set(product.id, {
+      name: words(product.name),
+      tags: words([product.category, ...(product.includes || [])].join(' ')),
+      details: words([product.description, optionText].join(' '))
+    });
+  }
+  return searchIndex.get(product.id);
+}
+
+// Each typed word must be the start of a word in the item.
+// Names match from the first letter; category, description and
+// options (e.g. "oat milk") only from 3 letters, so one letter doesn't match everything.
+function getSearchScore(product, query) {
+  const typed = normalizeText(query).split(' ').filter(Boolean);
+  if (!typed.length) return 1;
+  const index = getSearchText(product);
+  const starts = (list, word) => list.some((part) => part.startsWith(word));
+  let score = 0;
+  for (const word of typed) {
+    if (starts(index.name, word)) score += index.name[0].startsWith(word) ? 4 : 3;
+    else if (word.length >= 3 && starts(index.tags, word)) score += 2;
+    else if (word.length >= 3 && starts(index.details, word)) score += 1;
+    else return 0;
+  }
+  return score;
+}
+
+function searchProducts(query) {
+  return products
+    .map((product) => ({ product, score: getSearchScore(product, query) }))
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map((entry) => entry.product);
+}
+
+function highlightMatch(text, query) {
+  const words = normalizeText(query).split(' ').filter(Boolean);
+  if (!words.length) return text;
+  const lower = text.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const marks = new Array(text.length).fill(false);
+  words.forEach((word) => {
+    let i = lower.indexOf(word);
+    while (i !== -1) {
+      for (let k = i; k < i + word.length; k += 1) marks[k] = true;
+      i = lower.indexOf(word, i + word.length);
+    }
+  });
+  let out = '';
+  let open = false;
+  for (let i = 0; i < text.length; i += 1) {
+    if (marks[i] && !open) { out += '<mark>'; open = true; }
+    if (!marks[i] && open) { out += '</mark>'; open = false; }
+    out += text[i];
+  }
+  return open ? out + '</mark>' : out;
+}
+
+function renderSearchSuggestions(input) {
+  const panel = document.getElementById('search-results');
+  if (!panel) return;
+  const query = input.value;
+  if (!query.trim()) {
+    panel.hidden = true;
+    return;
+  }
+
+  const results = searchProducts(query);
+  panel.hidden = false;
+
+  if (!results.length) {
+    panel.innerHTML = `<p class="search-results__empty">No match for “${query.replace(/</g, '&lt;')}”</p>`;
+    return;
+  }
+
+  panel.innerHTML =
+    results
+      .slice(0, 6)
+      .map(
+        (product) => `
+          <button type="button" class="search-result" data-result="${product.id}" role="option">
+            <img src="${product.image.replace('w=900', 'w=120')}" alt="" />
+            <span class="search-result__text">
+              <strong>${highlightMatch(product.name, query)}</strong>
+              <small>${product.category}</small>
+            </span>
+            <span class="search-result__price">${formatCurrency(product.price)}</span>
+          </button>
+        `
+      )
+      .join('') +
+    `<a class="search-results__all" href="menu.html?q=${encodeURIComponent(query.trim())}">See all ${results.length} result${results.length === 1 ? '' : 's'} →</a>`;
 }
 
 /* ---------- Menu ---------- */
-
-function getVisibleProducts() {
-  const query = state.searchTerm.trim().toLowerCase();
-
-  return products.filter((product) => {
-    const matchesCategory = state.activeCategory === 'ALL' || product.category === state.activeCategory;
-    const matchesSearch = !query || product.name.toLowerCase().includes(query) || product.description.toLowerCase().includes(query);
-    return matchesCategory && matchesSearch;
-  });
-}
 
 function renderCategoryNav() {
   const nav = document.getElementById('category-nav');
@@ -743,32 +890,70 @@ function renderCategoryNav() {
   });
 }
 
+// Builds the cards for the selected tab once; typing only shows/hides them.
 function renderMenu() {
   const grid = document.getElementById('menu-grid');
   if (!grid) return;
-  const visibleProducts = getVisibleProducts();
 
-  if (!visibleProducts.length) {
-    grid.innerHTML = `
-      <div class="menu-empty">
+  const inCategory = products.filter((p) => state.activeCategory === 'ALL' || p.category === state.activeCategory);
+  grid.innerHTML =
+    inCategory.map(renderProductCard).join('') +
+    `<div class="menu-empty" id="menu-empty" hidden>
         <p class="eyebrow">No matches</p>
-        <h3>Nothing matches that search yet.</h3>
-        <button type="button" class="button button--secondary" id="reset-search-button">Reset search</button>
-      </div>
-    `;
+        <h3 id="menu-empty-title">Nothing matches that search.</h3>
+        <button type="button" class="button button--secondary" id="reset-search-button">Clear search</button>
+      </div>`;
 
-    document.getElementById('reset-search-button').addEventListener('click', () => {
-      state.searchTerm = '';
-      state.activeCategory = 'ALL';
-      syncSearchInputs();
-      renderCategoryNav();
-      renderMenu();
-    });
-    return;
+  document.getElementById('reset-search-button').addEventListener('click', () => {
+    state.searchTerm = '';
+    syncSearchInputs();
+    applyMenuFilter();
+  });
+
+  observeReveal(grid);
+  applyMenuFilter();
+}
+
+function applyMenuFilter() {
+  const grid = document.getElementById('menu-grid');
+  if (!grid) return;
+  const query = state.searchTerm;
+  const hasQuery = Boolean(query.trim());
+  let shown = 0;
+
+  const cards = Array.from(grid.querySelectorAll('.menu-card'));
+  const scored = cards.map((card) => {
+    const product = getProductById(card.dataset.card);
+    const score = product ? getSearchScore(product, query) : 0;
+    return { card, product, score };
+  });
+
+  scored.forEach(({ card, product, score }) => {
+    const visible = score > 0;
+    card.hidden = !visible;
+    if (visible) shown += 1;
+    // Cards shown by a search appear at once (no scroll-fade delay).
+    if (visible && hasQuery) card.classList.add('is-revealed');
+    const title = card.querySelector('.menu-card__title');
+    if (title && product) title.innerHTML = hasQuery ? highlightMatch(product.name, query) : product.name;
+  });
+
+  // Best matches first while searching; original order otherwise.
+  const ordered = hasQuery ? [...scored].sort((a, b) => b.score - a.score) : scored;
+  const empty = document.getElementById('menu-empty');
+  ordered.forEach(({ card }) => grid.insertBefore(card, empty));
+
+  if (empty) {
+    empty.hidden = shown > 0;
+    const title = document.getElementById('menu-empty-title');
+    if (title) title.textContent = `Nothing matches “${query.trim()}”.`;
   }
 
-  grid.innerHTML = visibleProducts.map(renderProductCard).join('');
-  observeReveal(grid);
+  const counter = document.getElementById('menu-result-count');
+  if (counter) {
+    counter.hidden = !hasQuery;
+    counter.textContent = `${shown} result${shown === 1 ? '' : 's'}`;
+  }
 }
 
 function renderFeatured() {
